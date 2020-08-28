@@ -22,25 +22,35 @@ class App extends React.Component {
       description: this.state.newTodoDescription,
       completed: false
     }
-    console.log("createTodo", newTodo)
 
-    // TODO: add the new Todo to the list in state
-    // make sure not to mutate the existing array!
+    // Add the new Todo to the list in state without mutating the original array
+    const newTodos = [...this.state.todos, newTodo]
+
+    this.setState({
+      todos: newTodos,
+      newTodoDescription: ""
+    })
   }
 
   deleteTodo = id => {
-    console.log("deleteTodo", id)
+    // Remove ONE todo from state using the id without mutating the existing array
+    const copyTodos = [...this.state.todos];
 
-    // TODO: remove ONE todo from state using the id
-    // make sure not to mutate the existing array!
+    const copyTodosWithoutItem = copyTodos.filter( todo => todo.id !== id ) // only keep the todo items that do not have the id passed in
+
+    this.setState({ todos: copyTodosWithoutItem })
   }
 
   updateTodo = (id, completed) => {
-    console.log("updateTodo", id, completed)
+    // Update ONE todo in state using the id with mutating the existing array! Also, make sure not to mutate any objects within the array!
+    const copyTodos = [...this.state.todos];
 
-    // TODO: update ONE todo in state using the id
-    // make sure not to mutate the existing array!
-    // also, make sure not to mutate any objects within the array!
+    const copyTodosWithItemUpdated = copyTodos.map( todo => {
+      if (todo.id === id) todo.completed = !todo.completed;
+      return todo
+    })
+
+    this.setState({ todos: copyTodosWithItemUpdated })
   }
 
   render() {
