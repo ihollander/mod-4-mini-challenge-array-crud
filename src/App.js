@@ -3,7 +3,7 @@ import React from 'react';
 const myTodos = [
   { id: 1, description: "Create a new todo", completed: false },
   { id: 2, description: "Update an existing todo", completed: false },
-  { id: 3, description: "Delete an existing todo", completed: false }
+  { id: 3, description: "Delete an existing todo", completed: false },
 ]
 
 // this is a bad way to make IDs. Demo purposes only!
@@ -22,25 +22,43 @@ class App extends React.Component {
       description: this.state.newTodoDescription,
       completed: false
     }
-    console.log("createTodo", newTodo)
-
     // TODO: add the new Todo to the list in state
     // make sure not to mutate the existing array!
+// create this part in react
+    this.setState(previous  => ({
+        todos: [...previous.todos, newTodo]
+      })
+    )
+
   }
 
   deleteTodo = id => {
-    console.log("deleteTodo", id)
+    // console.log("deleteTodo", id)
 
     // TODO: remove ONE todo from state using the id
     // make sure not to mutate the existing array!
+    this.setState((prev) => ({
+      todos: prev.todos.filter(todo => todo.id !== id)
+    }))
+
   }
 
   updateTodo = (id, completed) => {
-    console.log("updateTodo", id, completed)
 
     // TODO: update ONE todo in state using the id
     // make sure not to mutate the existing array!
     // also, make sure not to mutate any objects within the array!
+    // look through the array of todos match it to id, and change completed to true
+    this.setState(prev => ({todos: prev.todos.map((todo) => {
+      if (todo.id === id){
+        todo.completed = completed
+        return todo
+      }
+      return todo
+    }
+    )}))
+
+
   }
 
   render() {
