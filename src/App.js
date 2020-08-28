@@ -22,25 +22,40 @@ class App extends React.Component {
       description: this.state.newTodoDescription,
       completed: false
     }
-    console.log("createTodo", newTodo)
 
-    // TODO: add the new Todo to the list in state
-    // make sure not to mutate the existing array!
+    let newTodosList = [...this.state.todos, newTodo]
+
+    this.setState({
+      todos: newTodosList,
+      newTodoDescription: ""
+    })
   }
 
   deleteTodo = id => {
-    console.log("deleteTodo", id)
+    // console.log("deleteTodo", id)
 
-    // TODO: remove ONE todo from state using the id
-    // make sure not to mutate the existing array!
+    let shortList = this.state.todos.filter(todo => todo.id !== id)
+
+    this.setState({
+      todos: shortList
+    })
   }
 
   updateTodo = (id, completed) => {
-    console.log("updateTodo", id, completed)
+    // console.log("updateTodo", id, completed)
 
-    // TODO: update ONE todo in state using the id
-    // make sure not to mutate the existing array!
-    // also, make sure not to mutate any objects within the array!
+    let updatedList = this.state.todos.map(todo => {
+      if (todo.id === id) {
+        let updatedObj = {...todo}
+        updatedObj.completed = completed
+        return updatedObj
+      }
+      return todo
+    })
+
+    this.setState({
+      todos: updatedList
+    })
   }
 
   render() {
